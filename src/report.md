@@ -119,3 +119,22 @@
 
 ![](./image/Part2/P_2_stat_ping_ws1.png)
 ![](./image/Part2/P_2_stat_ping_ws2.png)
+
+## Part 3. Утилита **iperf3**
+#### 3.1. Скорость соединения
+
+8 Mbps = 1 MB/s
+100 MB/s = 819200 Kbps
+1 Gbps = 1024 Mbps
+
+#### 3.2. Утилита **iperf3**
+
+- `ws1/ws2 -> sudo apt install iperf3`
+
+##### Измерить скорость соединения между ws1 и ws2
+
+- `ws1 -> режим сервера -> iperf3 -s`
+- `ws2 -> ping на сервер ws1 -> iperf3 -c 192.168.100.10` 
+
+![serv_ws1](./image/Part3/P_3_ws1.png)
+![ping_ws2](./image/Part3/P_3_ws2.png)
