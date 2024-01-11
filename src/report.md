@@ -139,5 +139,35 @@
 ![serv_ws1](./image/Part3/P_3_ws1.png)
 ![ping_ws2](./image/Part3/P_3_ws2.png)
 
+## Part 4. Сетевой экран
+
 #### 4.1. Утилита **iptables**
-##### Создать файл */etc/firewall.sh*, имитирующий фаерволл, на ws1 и ws2:
+
+- `ws1/ws2 -> cd /etc`
+- `ws1/ws2 -> sudo touch firewall.sh`
+- `ws1/ws2 -> sudo vim firewall.sh`
+
+
+-A добавляет правило   
+-p указывает протокол (tcp/icmp)    
+--dport порт назначения  
+--icmp-type указание типа  
+-j переход к цепочке  
+
+
+![firewall-ws1](./image/Part4/P_1_ws1.png)  
+![firewall-ws2](./image/Part4/P_1_ws2.png)  
+![firewall-ws1-start](./image/Part4/P_1_ws1_start_frw.png)  
+![firewall-ws2-start](./image/Part4/P_1_ws2_start_frw.png)  
+
+- `Разница между стратегиями: в утилите iptables правила выполняются  сверху вниз. В ws1 первым указано запрещающее правило на выход, поэтому не сможет пропинговать другую ws2. У ws2 машины, наоброт первым указано разрешающее правило, значит сможет пропинговать ws1.`
+
+#### 4.2. Утилита **nmap**
+
+- `Не пингуется с ws1`  
+
+![ping-nmap-ws1](./image/Part4/P_2.png)
+
+- `ДАМП`  
+
+![damp](./image/Part4/P_4_damp.png)
