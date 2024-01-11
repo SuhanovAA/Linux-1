@@ -138,3 +138,6 @@
 
 ![serv_ws1](./image/Part3/P_3_ws1.png)
 ![ping_ws2](./image/Part3/P_3_ws2.png)
+
+#### 4.1. Утилита **iptables**
+##### Создать файл */etc/firewall.sh*, имитирующий фаерволл, на ws1 и ws2:
