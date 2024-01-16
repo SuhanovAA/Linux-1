@@ -295,3 +295,64 @@
 ##### Сохранить дампы образов виртуальных машин
 
 ![ws11](./image/Part5/P_5_6_dump.png)
+
+## Part 6. Динамическая настройка IP с помощью **DHCP**
+
+##### Для r2 настроить в файле */etc/dhcp/dhcpd.conf* конфигурацию службы **DHCP**:
+
+-> `sudo apt-get update`
+-> `sudo apt-get install isc-dhcp-server -y`
+-> `sudo vim /etc/dhcp/dhcpd.conf`
+
+##### 1) указать адрес маршрутизатора по-умолчанию, DNS-сервер и адрес внутренней сети. Пример файла для r2:
+
+```shell
+subnet 10.100.0.0 netmask 255.255.0.0 {}
+
+subnet 10.20.0.0 netmask 255.255.255.192
+{
+    range 10.20.0.2 10.20.0.50;
+    option routers 10.20.0.1;
+    option domain-name-servers 10.20.0.1;
+}
+```
+
+![r2](./image/Part6/P_6_1_0.png)
+
+##### 2) в файле *resolv.conf* прописать `nameserver 8.8.8.8.`
+
+-> `sudo vim /etc/resolv.conf`
+
+![r2](./image/Part6/P_6_1_1.png)
+
+##### Перезагрузить службу **DHCP** командой `systemctl restart isc-dhcp-server`. Машину ws21 перезагрузить при помощи `reboot` и через `ip a` показать, что она получила адрес. Также пропинговать ws22 с ws21.
+
+![ws21](./image/Part6/P_6_1_2.png)
+![ws21](./image/Part6/P_6_1_3.png)
+![ws22](./image/Part6/P_6_1_4.png)
+
+##### Указать MAC адрес у ws11, для этого в *etc/netplan/00-installer-config.yaml* надо добавить строки: `macaddress: 10:10:10:10:10:BA`, `dhcp4: true`
+
+![ws11](./image/Part6/P_6_1_5.png)
+
+##### Для r1 настроить аналогично r2, но сделать выдачу адресов с жесткой привязкой к MAC-адресу (ws11). Провести аналогичные тесты
+
+-> `sudo apt-get update`
+-> `sudo apt-get install isc-dhcp-server -y`
+-> `sudo vim /etc/dhcp/dhcpd.conf`
+
+![r1](./image/Part6/P_6_1_6.png)
+![r1](./image/Part6/P_6_1_7.png)
+
+-> `reboot \\ws11`
+
+![ws11](./image/Part6/P_6_1_8.png)
+
+##### Запросить с ws21 обновление ip адреса
+
+![ws21_before](./image/Part6/P_6_1_9.png)
+
+-> `sudo dhclient -r enp0s8`
+-> `sudo dhclient enp0s8`
+
+![ws21_after](./image/Part6/P_6_1_10.png)
